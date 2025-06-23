@@ -58,10 +58,6 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
 
     return { success: true, message: "User registered successfully." };
   } catch (error) {
-    console.log(error.name);
-    console.log(error.code);
-    console.log(error.errors);
-    console.log(error.meta?.target);
     if (isRedirectError(error)) {
       throw error;
     }
