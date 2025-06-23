@@ -1,4 +1,3 @@
-import CredentialsSignInForm from "@/app/(auth)/sign-in/credentials-signin-form";
 import {
   Card,
   CardContent,
@@ -12,16 +11,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import CredentialsSignUpForm from "@/app/(auth)/sign-up/credentials-signup-form";
 
 export const metadata: Metadata = {
-  title: "Sign in",
+  title: "Sign up",
 };
 
 interface PropTypes {
   searchParams: Promise<{ callbackUrl: string }>;
 }
 
-const SignInPage = async ({ searchParams }: PropTypes) => {
+const SignUpPage = async ({ searchParams }: PropTypes) => {
   const { callbackUrl } = await searchParams;
 
   const session = await auth();
@@ -42,17 +42,17 @@ const SignInPage = async ({ searchParams }: PropTypes) => {
               priority={true}
             />
           </Link>
-          <CardTitle className="text-center">Sign in</CardTitle>
+          <CardTitle className="text-center">Create Account</CardTitle>
           <CardDescription className="text-center">
-            Sign in to your account
+            Enter your information below to sign up
           </CardDescription>
         </CardHeader>
         <CardContent className="space-x-4">
-          <CredentialsSignInForm />
+          <CredentialsSignUpForm />
         </CardContent>
       </Card>
     </div>
   );
 };
 
-export default SignInPage;
+export default SignUpPage;
