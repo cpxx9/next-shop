@@ -3,8 +3,12 @@ import sampleData from "@/db/sample-data";
 
 (async function main() {
   const prisma = new PrismaClient();
+  await prisma.cart.deleteMany().catch((e) => {
+    console.log("database seeding failed...");
+  });
+
   await prisma.product.deleteMany().catch((e) => {
-    console.log("Database seeding failed...");
+    console.log("database seeding failed...");
   });
 
   await prisma.account.deleteMany().catch((e) => {
