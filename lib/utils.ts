@@ -35,3 +35,10 @@ export async function formatError(error: any) {
       : JSON.stringify(error.message);
   }
 }
+
+export function round2(value: number | string) {
+  if (typeof value === "string") {
+    value = Number(value);
+  }
+  return Math.round((value + Number.EPSILON) * 100) / 100;
+}
