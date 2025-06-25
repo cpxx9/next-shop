@@ -3,15 +3,15 @@ import { getMyCart } from "@/lib/actions/cart.actions";
 import { getUserById } from "@/lib/actions/user.actions";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { ShippingAddress } from "@/types";
-import ShippingAddressForm from "@/app/(root)/shipping-address/shipping-address-form";
+import { ShippingDetails } from "@/types";
+import ShippingDetailsForm from "@/app/(root)/shipping-address/shipping-address-form";
 import CheckoutSteps from "@/components/shared/checkout-steps";
 
 export const metadata: Metadata = {
-  title: "Shipping Address",
+  title: "Shipping Details",
 };
 
-const ShippingAddressPage = async () => {
+const ShippingDetailsPage = async () => {
   const cart = await getMyCart();
 
   if (!cart || cart.items.length === 0) redirect("/cart");
@@ -27,9 +27,9 @@ const ShippingAddressPage = async () => {
   return (
     <>
       <CheckoutSteps current={1} />
-      <ShippingAddressForm address={user.address as ShippingAddress} />
+      <ShippingDetailsForm address={user.address as ShippingDetails} />
     </>
   );
 };
 
-export default ShippingAddressPage;
+export default ShippingDetailsPage;

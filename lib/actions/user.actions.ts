@@ -1,7 +1,7 @@
 "use server";
 
 import {
-  shippingAddressSchema,
+  ShippingDetailsSchema,
   signInFormSchema,
   signUpFormSchema,
 } from "@/lib/validators";
@@ -10,7 +10,7 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { hashSync } from "bcrypt-ts-edge";
 import { prisma } from "@/db/prisma";
 import { formatError } from "@/lib/utils";
-import type { ShippingAddress } from "@/types";
+import type { ShippingDetails } from "@/types";
 
 export async function signInWithCredentials(
   previousState: unknown,
@@ -79,7 +79,7 @@ export async function getUserById(userId: string) {
   return user;
 }
 
-export async function updateUserAddress(data: ShippingAddress) {
+export async function updateUserAddress(data: ShippingDetails) {
   try {
     const session = await auth();
     const currentUser = await prisma.user.findFirst({
@@ -87,7 +87,7 @@ export async function updateUserAddress(data: ShippingAddress) {
     });
     if (!currentUser) throw new Error("User not found");
 
-    const address = shippingAddressSchema.parse(data);
+    const address = ShippingDetailsSchema.parse(data);
 
     await prisma.user.update({
       where: { id: currentUser.id },

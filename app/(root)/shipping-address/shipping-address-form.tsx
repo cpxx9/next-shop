@@ -1,13 +1,13 @@
 "use client";
 
 import { useToast } from "@/hooks/use-toast";
-import { shippingAddressSchema } from "@/lib/validators";
-import { ShippingAddress } from "@/types";
+import { ShippingDetailsSchema } from "@/lib/validators";
+import { ShippingDetails } from "@/types";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ControllerRenderProps, useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
-import { shippingAddressDefaultValues } from "@/lib/constants";
+import { ShippingDetailsDefaultValues } from "@/lib/constants";
 import { useTransition } from "react";
 import {
   Form,
@@ -23,20 +23,20 @@ import { ArrowRight, Loader } from "lucide-react";
 import { updateUserAddress } from "@/lib/actions/user.actions";
 
 interface PropTypes {
-  address: ShippingAddress;
+  address: ShippingDetails;
 }
 
-const ShippingAddressForm = ({ address }: PropTypes) => {
+const ShippingDetailsForm = ({ address }: PropTypes) => {
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof shippingAddressSchema>>({
-    resolver: zodResolver(shippingAddressSchema),
-    defaultValues: address || shippingAddressDefaultValues, // remove default values for prod
+  const form = useForm<z.infer<typeof ShippingDetailsSchema>>({
+    resolver: zodResolver(ShippingDetailsSchema),
+    defaultValues: address || ShippingDetailsDefaultValues, // remove default values for prod
   });
 
-  const onSubmit: SubmitHandler<z.infer<typeof shippingAddressSchema>> = async (
+  const onSubmit: SubmitHandler<z.infer<typeof ShippingDetailsSchema>> = async (
     values
   ) => {
     startTransition(async () => {
@@ -56,7 +56,7 @@ const ShippingAddressForm = ({ address }: PropTypes) => {
   return (
     <>
       <div className="max-w-md mx-auto space-y-4">
-        <h1 className="h2-bold mt-4">Shipping Address</h1>
+        <h1 className="h2-bold mt-4">Shipping Details</h1>
         <p className="text-sm text-muted-foreground">
           Please enter an address to ship to
         </p>
@@ -74,7 +74,7 @@ const ShippingAddressForm = ({ address }: PropTypes) => {
                   field,
                 }: {
                   field: ControllerRenderProps<
-                    z.infer<typeof shippingAddressSchema>,
+                    z.infer<typeof ShippingDetailsSchema>,
                     "fullName"
                   >;
                 }) => (
@@ -96,7 +96,7 @@ const ShippingAddressForm = ({ address }: PropTypes) => {
                   field,
                 }: {
                   field: ControllerRenderProps<
-                    z.infer<typeof shippingAddressSchema>,
+                    z.infer<typeof ShippingDetailsSchema>,
                     "streetAddress"
                   >;
                 }) => (
@@ -118,7 +118,7 @@ const ShippingAddressForm = ({ address }: PropTypes) => {
                   field,
                 }: {
                   field: ControllerRenderProps<
-                    z.infer<typeof shippingAddressSchema>,
+                    z.infer<typeof ShippingDetailsSchema>,
                     "city"
                   >;
                 }) => (
@@ -140,7 +140,7 @@ const ShippingAddressForm = ({ address }: PropTypes) => {
                   field,
                 }: {
                   field: ControllerRenderProps<
-                    z.infer<typeof shippingAddressSchema>,
+                    z.infer<typeof ShippingDetailsSchema>,
                     "postalCode"
                   >;
                 }) => (
@@ -162,7 +162,7 @@ const ShippingAddressForm = ({ address }: PropTypes) => {
                   field,
                 }: {
                   field: ControllerRenderProps<
-                    z.infer<typeof shippingAddressSchema>,
+                    z.infer<typeof ShippingDetailsSchema>,
                     "country"
                   >;
                 }) => (
@@ -193,4 +193,4 @@ const ShippingAddressForm = ({ address }: PropTypes) => {
   );
 };
 
-export default ShippingAddressForm;
+export default ShippingDetailsForm;

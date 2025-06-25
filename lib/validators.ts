@@ -60,7 +60,7 @@ export const insertCartSchema = z.object({
   userId: z.string().optional().nullable(),
 });
 
-export const shippingAddressSchema = z.object({
+export const ShippingDetailsSchema = z.object({
   fullName: z.string().min(3, `Name${threeCharError}`),
   streetAddress: z.string().min(3, `Address${threeCharError}`),
   city: z.string().min(3, `City${threeCharError}`),
