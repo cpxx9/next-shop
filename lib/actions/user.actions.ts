@@ -11,7 +11,7 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { hashSync } from "bcrypt-ts-edge";
 import { prisma } from "@/db/prisma";
 import { formatError } from "@/lib/utils";
-import type { ShippingDetails } from "@/types";
+import type { PaymentMethod, ShippingDetails } from "@/types";
 import { z } from "zod";
 
 export async function signInWithCredentials(
@@ -109,9 +109,7 @@ export async function updateUserAddress(data: ShippingDetails) {
   }
 }
 
-export async function updateUserPaymentMethod(
-  data: z.infer<typeof paymentMethodSchema>
-) {
+export async function updateUserPaymentMethod(data: PaymentMethod) {
   try {
     const session = await auth();
     const currentUser = await getUserById(session?.user?.id);
