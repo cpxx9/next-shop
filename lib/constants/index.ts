@@ -16,3 +16,11 @@ export const signUpDefaultValues = {
   password: "",
   confirmPassword: "",
 };
+
+export const shippingAddressDefaultValues = {
+  fullname: "Cole Admin",
+  streetAddress: "11 Test Street",
+  city: "Testington",
+  postalCode: "01211",
+  country: "Testdom",
+};

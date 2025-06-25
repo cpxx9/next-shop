@@ -10,11 +10,11 @@ const currency = z
 const threeCharError = " must be at least 3 characters";
 
 export const insertProductSchema = z.object({
-  name: z.string().min(3, `Name ${threeCharError}`),
-  slug: z.string().min(3, `Slug ${threeCharError}`),
-  category: z.string().min(3, `Category ${threeCharError}`),
-  brand: z.string().min(3, `Brand ${threeCharError}`),
-  description: z.string().min(3, `Description ${threeCharError}`),
+  name: z.string().min(3, `Name${threeCharError}`),
+  slug: z.string().min(3, `Slug${threeCharError}`),
+  category: z.string().min(3, `Category${threeCharError}`),
+  brand: z.string().min(3, `Brand${threeCharError}`),
+  description: z.string().min(3, `Description${threeCharError}`),
   stock: z.coerce.number(),
   images: z.array(z.string()).min(1, "Product must have at least one image"),
   isFeatured: z.boolean(),
@@ -58,4 +58,14 @@ export const insertCartSchema = z.object({
   taxPrice: currency,
   sessionCartId: z.string().min(1, "Session Cart ID is required"),
   userId: z.string().optional().nullable(),
+});
+
+export const shippingAddressSchema = z.object({
+  fullname: z.string().min(3, `Name${threeCharError}`),
+  streetAddress: z.string().min(3, `Address${threeCharError}`),
+  city: z.string().min(3, `City${threeCharError}`),
+  postalCode: z.string().length(5, `Postal Code${threeCharError}`),
+  country: z.string().min(3, `Country${threeCharError}`),
+  lat: z.number().optional(),
+  lng: z.number().optional(),
 });
