@@ -101,7 +101,7 @@ export const config = {
     },
     async authorized({ request, auth }: any) {
       const protectedPaths = [
-        /\/shipping-address/,
+        /\/shipping-details/,
         /\/payment-method/,
         /\/place-order/,
         /\/profile/,
