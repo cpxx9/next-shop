@@ -18,9 +18,9 @@ export const signUpDefaultValues = {
 };
 
 export const shippingAddressDefaultValues = {
-  fullName: "Cole Admin",
-  streetAddress: "11 Test Street",
-  city: "Testington",
-  postalCode: "01211",
-  country: "Testdom",
+  fullName: "",
+  streetAddress: "",
+  city: "",
+  postalCode: "",
+  country: "",
 };
