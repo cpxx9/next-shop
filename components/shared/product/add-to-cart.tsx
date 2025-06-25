@@ -62,7 +62,12 @@ const AddToCart = ({ cart, item }: PropTypes) => {
 
   return existItem ? (
     <div>
-      <Button type="button" variant="outline" onClick={handleRemoveFromCart}>
+      <Button
+        disabled={isPending}
+        type="button"
+        variant="outline"
+        onClick={handleRemoveFromCart}
+      >
         {isPending ? (
           <Loader className="w-4 h-4 animate-spin" />
         ) : (
@@ -79,7 +84,12 @@ const AddToCart = ({ cart, item }: PropTypes) => {
       </Button>
     </div>
   ) : (
-    <Button className="w-full" type="button" onClick={handleAddToCart}>
+    <Button
+      disabled={isPending}
+      className="w-full"
+      type="button"
+      onClick={handleAddToCart}
+    >
       {isPending ? <Loader className="w-4 h-4 animate-spin" /> : <Plus />} Add
       to Cart
     </Button>
