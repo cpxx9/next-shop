@@ -66,7 +66,7 @@ export const shippingDetailsSchema = z.object({
   fullName: z.string().min(3, `Name${threeCharError}`),
   streetAddress: z.string().min(3, `Address${threeCharError}`),
   city: z.string().min(3, `City${threeCharError}`),
-  postalCode: z.string().length(5, `Postal Code${threeCharError}`),
+  postalCode: z.string().length(5, `Postal Code must be exactly 5 digits`),
   country: z.string().min(3, `Country${threeCharError}`),
   lat: z.number().optional(),
   lng: z.number().optional(),
@@ -80,3 +80,24 @@ export const paymentMethodSchema = z
     path: ["type"],
     message: "Invalid payment method",
   });
+
+export const insertOrderSchema = z.object({
+  userId: z.string().min(1, `User${isRequiredError}`),
+  itemsPrice: currency,
+  shippingPrice: currency,
+  taxPrice: currency,
+  totalPrice: currency,
+  paymentMethod: z.string().refine((data) => PAYMENT_METHODS.includes(data), {
+    message: "Invalid payment method",
+  }),
+  shippingDetails: shippingDetailsSchema,
+});
+
+export const insertOrderItemSchema = z.object({
+  productId: z.string(),
+  slug: z.string(),
+  image: z.string(),
+  name: z.string(),
+  price: currency,
+  qty: z.number(),
+});

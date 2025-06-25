@@ -105,7 +105,7 @@ model Cart {
 model Order {
   id              String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId          String      @db.Uuid
-  shippingAddress Json        @db.Json
+  shippingDetails Json        @db.Json
   paymentMethod   String
   paymentResult   Json?       @db.Json
   itemsPrice      Decimal     @db.Decimal(12, 2)
