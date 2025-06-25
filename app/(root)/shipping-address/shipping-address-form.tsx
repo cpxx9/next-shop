@@ -1,7 +1,7 @@
 "use client";
 
 import { useToast } from "@/hooks/use-toast";
-import { ShippingDetailsSchema } from "@/lib/validators";
+import { shippingDetailsSchema } from "@/lib/validators";
 import { ShippingDetails } from "@/types";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -31,12 +31,12 @@ const ShippingDetailsForm = ({ address }: PropTypes) => {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof ShippingDetailsSchema>>({
-    resolver: zodResolver(ShippingDetailsSchema),
+  const form = useForm<z.infer<typeof shippingDetailsSchema>>({
+    resolver: zodResolver(shippingDetailsSchema),
     defaultValues: address || ShippingDetailsDefaultValues, // remove default values for prod
   });
 
-  const onSubmit: SubmitHandler<z.infer<typeof ShippingDetailsSchema>> = async (
+  const onSubmit: SubmitHandler<z.infer<typeof shippingDetailsSchema>> = async (
     values
   ) => {
     startTransition(async () => {
@@ -74,7 +74,7 @@ const ShippingDetailsForm = ({ address }: PropTypes) => {
                   field,
                 }: {
                   field: ControllerRenderProps<
-                    z.infer<typeof ShippingDetailsSchema>,
+                    z.infer<typeof shippingDetailsSchema>,
                     "fullName"
                   >;
                 }) => (
@@ -96,7 +96,7 @@ const ShippingDetailsForm = ({ address }: PropTypes) => {
                   field,
                 }: {
                   field: ControllerRenderProps<
-                    z.infer<typeof ShippingDetailsSchema>,
+                    z.infer<typeof shippingDetailsSchema>,
                     "streetAddress"
                   >;
                 }) => (
@@ -118,7 +118,7 @@ const ShippingDetailsForm = ({ address }: PropTypes) => {
                   field,
                 }: {
                   field: ControllerRenderProps<
-                    z.infer<typeof ShippingDetailsSchema>,
+                    z.infer<typeof shippingDetailsSchema>,
                     "city"
                   >;
                 }) => (
@@ -140,7 +140,7 @@ const ShippingDetailsForm = ({ address }: PropTypes) => {
                   field,
                 }: {
                   field: ControllerRenderProps<
-                    z.infer<typeof ShippingDetailsSchema>,
+                    z.infer<typeof shippingDetailsSchema>,
                     "postalCode"
                   >;
                 }) => (
@@ -162,7 +162,7 @@ const ShippingDetailsForm = ({ address }: PropTypes) => {
                   field,
                 }: {
                   field: ControllerRenderProps<
-                    z.infer<typeof ShippingDetailsSchema>,
+                    z.infer<typeof shippingDetailsSchema>,
                     "country"
                   >;
                 }) => (

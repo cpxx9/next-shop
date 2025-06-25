@@ -1,3 +1,4 @@
+import { PAYMENT_METHODS } from "@/lib/constants";
 import { formatNumberWithDecimal } from "@/lib/utils";
 import { z } from "zod";
 
@@ -8,6 +9,7 @@ const currency = z
     "Price must have exactly two decimal places"
   );
 const threeCharError = " must be at least 3 characters";
+const isRequiredError = " is required";
 
 export const insertProductSchema = z.object({
   name: z.string().min(3, `Name${threeCharError}`),
@@ -42,11 +44,11 @@ export const signUpFormSchema = z
   });
 
 export const cartItemSchema = z.object({
-  productId: z.string().min(1, "Product is required"),
-  name: z.string().min(1, "Name is required"),
-  slug: z.string().min(1, "Slug is required"),
+  productId: z.string().min(1, `Product${isRequiredError}`),
+  name: z.string().min(1, `Name${isRequiredError}`),
+  slug: z.string().min(1, `Slug${isRequiredError}`),
   qty: z.number().int().nonnegative("Quantity cannot be negative"),
-  image: z.string().min(1, "Image is required"),
+  image: z.string().min(1, `Image${isRequiredError}`),
   price: currency,
 });
 
@@ -56,11 +58,11 @@ export const insertCartSchema = z.object({
   totalPrice: currency,
   shippingPrice: currency,
   taxPrice: currency,
-  sessionCartId: z.string().min(1, "Session Cart ID is required"),
+  sessionCartId: z.string().min(1, `Session Cart ID${isRequiredError}`),
   userId: z.string().optional().nullable(),
 });
 
-export const ShippingDetailsSchema = z.object({
+export const shippingDetailsSchema = z.object({
   fullName: z.string().min(3, `Name${threeCharError}`),
   streetAddress: z.string().min(3, `Address${threeCharError}`),
   city: z.string().min(3, `City${threeCharError}`),
@@ -69,3 +71,12 @@ export const ShippingDetailsSchema = z.object({
   lat: z.number().optional(),
   lng: z.number().optional(),
 });
+
+export const paymentMethodSchema = z
+  .object({
+    type: z.string().min(1, `Payment method${isRequiredError}`),
+  })
+  .refine((data) => PAYMENT_METHODS.includes(data.type), {
+    path: ["type"],
+    message: "Invalid payment method",
+  });
