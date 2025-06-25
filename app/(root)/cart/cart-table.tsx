@@ -156,7 +156,7 @@ const CartTable = ({ cart }: PropTypes) => {
                 ) : (
                   <ArrowRight className="w-4 h-4" />
                 )}{" "}
-                Proceed to Cehckout
+                Proceed to Checkout
               </Button>
             </CardContent>
           </Card>

@@ -61,7 +61,7 @@ export const insertCartSchema = z.object({
 });
 
 export const shippingAddressSchema = z.object({
-  fullname: z.string().min(3, `Name${threeCharError}`),
+  fullName: z.string().min(3, `Name${threeCharError}`),
   streetAddress: z.string().min(3, `Address${threeCharError}`),
   city: z.string().min(3, `City${threeCharError}`),
   postalCode: z.string().length(5, `Postal Code${threeCharError}`),
