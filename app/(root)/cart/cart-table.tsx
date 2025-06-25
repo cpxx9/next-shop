@@ -123,7 +123,9 @@ const CartTable = ({ cart }: PropTypes) => {
                           </span>
                         )}
                         <span
-                          className={item.qty > 1 ? "text-sm font-light" : ""}
+                          className={
+                            item.qty > 1 ? "text-sm text-muted-foreground" : ""
+                          }
                         >
                           {formatCurrency(item.price)}
                         </span>
