@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { CartItem } from "@/types";
+import { Cart, CartItem } from "@/types";
 import { convertToPlainObject, formatError, round2 } from "@/lib/utils";
 import { auth } from "@/auth";
 import { prisma } from "@/db/prisma";
@@ -163,7 +163,7 @@ export async function removeItemFromCart(productId: string) {
     revalidatePath(`/product/${product.slug}`);
     return {
       success: true,
-      message: `${product.name} was remove from cart`,
+      message: `${product.name} was removed from cart`,
     };
   } catch (error) {
     return { success: false, message: formatError(error) };

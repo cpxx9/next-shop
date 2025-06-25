@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import ProductPrice from "@/components/shared/product/product-price";
 import ProductImages from "@/components/shared/product/product-images";
 import AddToCart from "@/components/shared/product/add-to-cart";
+import { getMyCart } from "@/lib/actions/cart.actions";
 
 interface PropTypes {
   params: Promise<{ slug: string }>;
@@ -14,6 +15,9 @@ const ProductDetailsPage = async ({ params }: PropTypes) => {
 
   const product = await getProductBySlug(slug);
   if (!product) notFound();
+
+  const cart = await getMyCart();
+
   return (
     <>
       <section>
@@ -65,6 +69,7 @@ const ProductDetailsPage = async ({ params }: PropTypes) => {
                 {product.stock > 0 && (
                   <div className="flex-center">
                     <AddToCart
+                      cart={cart}
                       item={{
                         productId: product.id,
                         name: product.name,
