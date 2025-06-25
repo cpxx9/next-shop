@@ -115,7 +115,20 @@ const CartTable = ({ cart }: PropTypes) => {
                         )}
                       </Button>
                     </TableCell>
-                    <TableCell className="text-right">{item.price}</TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex flex-col">
+                        {item.qty > 1 && (
+                          <span>
+                            {formatCurrency(Number(item.price) * item.qty)}
+                          </span>
+                        )}
+                        <span
+                          className={item.qty > 1 ? "text-sm font-light" : ""}
+                        >
+                          {formatCurrency(item.price)}
+                        </span>
+                      </div>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
