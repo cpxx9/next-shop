@@ -1,3 +1,4 @@
+import PlaceOrderForm from "@/app/(root)/place-order/place-order-form";
 import { auth } from "@/auth";
 import CheckoutSteps from "@/components/shared/checkout-steps";
 import { Button } from "@/components/ui/button";
@@ -52,7 +53,7 @@ const PlaceOrderPage = async () => {
                 {userAddress.postalCode}
               </p>
               <div className="mt-3">
-                <Link href="/shipping-address">
+                <Link href="/shipping-details">
                   <Button variant="outline">Edit</Button>
                 </Link>
               </div>
@@ -71,7 +72,7 @@ const PlaceOrderPage = async () => {
           </Card>
           <Card>
             <CardContent className="p-4 gap-4">
-              <h2 className="text-xl pb-4">Payment Method</h2>
+              <h2 className="text-xl pb-4">Cart</h2>
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -144,6 +145,7 @@ const PlaceOrderPage = async () => {
                 <div className="font-semibold">Total</div>
                 <div>{formatCurrency(cart.totalPrice)}</div>
               </div>
+              <PlaceOrderForm />
             </CardContent>
           </Card>
         </div>

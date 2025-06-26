@@ -14,6 +14,7 @@ export async function createOrder() {
     const session = await auth();
     if (!session) throw new Error("User is not authenticated");
     const cart = await getMyCart();
+    console.log(cart);
     const userId = session?.user?.id;
     if (!userId) throw new Error("User not found");
 
@@ -40,15 +41,21 @@ export async function createOrder() {
       };
     }
 
+    console.log("------------user");
+    console.log(user);
+
     const order = insertOrderSchema.parse({
       userId: user.id,
-      shippingAddress: user.address,
+      shippingDetails: user.address,
       paymentMethod: user.paymentMethod,
       itemsPrice: cart.itemsPrice,
       shippingPrice: cart.shippingPrice,
       taxPrice: cart.taxPrice,
       totalPrice: cart.totalPrice,
     });
+
+    console.log("--------order");
+    console.log(order);
 
     const insertedOrderId = await prisma.$transaction(async (tx) => {
       const insertedOrder = await tx.order.create({ data: order });
@@ -69,6 +76,8 @@ export async function createOrder() {
       });
       return insertedOrder.id;
     });
+
+    console.log(insertedOrderId);
 
     if (!insertedOrderId)
       throw new Error("Order not placed.... Transaction failed");
