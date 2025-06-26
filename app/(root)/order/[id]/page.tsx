@@ -1,4 +1,7 @@
+import OrderDetailsTable from "@/app/(root)/order/[id]/order-details-table";
 import { getOrderById } from "@/lib/actions/order.actions";
+import { convertToPlainObject, shortenUuid } from "@/lib/utils";
+import { Order, ShippingDetails } from "@/types";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -18,7 +21,13 @@ const OrderDetailsPage = async ({ params }: PropTypes) => {
 
   return (
     <>
-      <h2>Details</h2>
+      <h1 className="py-4 text-2xl">Order {shortenUuid(order.id)}</h1>
+      <OrderDetailsTable
+        order={{
+          ...order,
+          shippingDetails: order.shippingDetails as ShippingDetails,
+        }}
+      />
     </>
   );
 };
