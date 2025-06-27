@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import Pagination from "@/components/shared/pagination";
 
 export const metadata: Metadata = {
   title: "My Orders",
@@ -25,8 +26,6 @@ const OrdersPage = async ({ searchParams }: PropTypes) => {
   const orders = await getMyOrders({
     page: Number(page) || 1,
   });
-
-  console.log(orders);
 
   return (
     <div className="space-y-2 flex-1">
@@ -53,7 +52,7 @@ const OrdersPage = async ({ searchParams }: PropTypes) => {
                 <TableCell>{formatCurrency(order.totalPrice)}</TableCell>
                 <TableCell>
                   {order.isPaid && order.paidAt ? (
-                    <Badge variant="secondary">
+                    <Badge variant="secondary" className="bg-green-600">
                       {formatDateTime(order.paidAt).dateOnly}
                     </Badge>
                   ) : (
@@ -76,6 +75,12 @@ const OrdersPage = async ({ searchParams }: PropTypes) => {
             ))}
           </TableBody>
         </Table>
+        {orders.totalPages > 1 && (
+          <Pagination
+            page={Number(page) || 1}
+            totalPages={orders?.totalPages}
+          />
+        )}
       </div>
     </div>
   );

@@ -242,30 +242,22 @@ export async function getMyOrders({
   limit?: number;
   page: number;
 }) {
-  try {
-    const session = await auth();
-    if (!session) throw new Error("User is not authorized");
+  const session = await auth();
+  if (!session) throw new Error("User is not authorized");
 
-    const data = await prisma.order.findMany({
-      where: { userId: session?.user?.id! },
-      orderBy: { createdAt: "desc" },
-      take: limit,
-      skip: (page - 1) * limit,
-    });
+  const data = await prisma.order.findMany({
+    where: { userId: session?.user?.id! },
+    orderBy: { createdAt: "desc" },
+    take: limit,
+    skip: (page - 1) * limit,
+  });
 
-    const dataCount = await prisma.order.count({
-      where: { userId: session?.user?.id! },
-    });
+  const dataCount = await prisma.order.count({
+    where: { userId: session?.user?.id! },
+  });
 
-    return {
-      success: true,
-      data,
-      totalPages: Math.ceil(dataCount / limit),
-    };
-  } catch (error) {
-    return {
-      success: false,
-      message: formatError(error),
-    };
-  }
+  return {
+    data,
+    totalPages: Math.ceil(dataCount / limit),
+  };
 }
