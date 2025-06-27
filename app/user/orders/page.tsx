@@ -52,9 +52,7 @@ const OrdersPage = async ({ searchParams }: PropTypes) => {
                 <TableCell>{formatCurrency(order.totalPrice)}</TableCell>
                 <TableCell>
                   {order.isPaid && order.paidAt ? (
-                    <Badge variant="secondary" className="bg-green-600">
-                      {formatDateTime(order.paidAt).dateOnly}
-                    </Badge>
+                    <Badge>{formatDateTime(order.paidAt).dateOnly}</Badge>
                   ) : (
                     <Badge variant="destructive">Not Paid</Badge>
                   )}
