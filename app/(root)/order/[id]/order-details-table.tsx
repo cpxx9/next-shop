@@ -14,12 +14,23 @@ import { formatCurrency, formatDateTime, shortenUuid } from "@/lib/utils";
 import { Order } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  PayPalButtons,
+  PayPalScriptProvider,
+  usePayPalScriptReducer,
+} from "@paypal/react-paypal-js";
+import {
+  createPayPalOrder,
+  approvePayPalOrder,
+} from "@/lib/actions/order.actions";
+import { useToast } from "@/hooks/use-toast";
 
 interface PropTypes {
   order: Order;
+  paypalClientId: string;
 }
 
-const OrderDetailsTable = ({ order }: PropTypes) => {
+const OrderDetailsTable = ({ order, paypalClientId }: PropTypes) => {
   const {
     id,
     shippingDetails,
@@ -35,6 +46,42 @@ const OrderDetailsTable = ({ order }: PropTypes) => {
     deliveredAt,
   } = order;
 
+  const { toast } = useToast();
+
+  const PrintLoadingState = () => {
+    const [{ isPending, isRejected }] = usePayPalScriptReducer();
+    let status = "";
+
+    if (!isPending) {
+      status = "Loading PayPal...";
+    } else if (isRejected) {
+      status = "Error Loading PayPal";
+    }
+    return status;
+  };
+
+  const handleCreatePayPalOrder = async () => {
+    const res = await createPayPalOrder(order.id);
+
+    if (!res.success) {
+      toast({
+        variant: "destructive",
+        description: res.message,
+      });
+    }
+
+    return res.data;
+  };
+
+  const handleApprovePayPalOrder = async (data: { orderID: string }) => {
+    const res = await approvePayPalOrder(order.id, data);
+
+    toast({
+      variant: res.success ? "default" : "destructive",
+      description: res.message,
+    });
+  };
+
   return (
     <>
       <div className="grid md:grid-cols-3 md:gap-5">
@@ -45,7 +92,7 @@ const OrderDetailsTable = ({ order }: PropTypes) => {
               <p className="mb-2">{paymentMethod}</p>
               {isPaid ? (
                 <Badge variant="secondary">
-                  Paid at {formatDateTime(paidAt!).dateTime}
+                  Paid on {formatDateTime(paidAt!).dateTime}
                 </Badge>
               ) : (
                 <Badge variant="destructive">Not Paid</Badge>
@@ -147,6 +194,17 @@ const OrderDetailsTable = ({ order }: PropTypes) => {
                 <div className="font-semibold">Total</div>
                 <div>{formatCurrency(totalPrice)}</div>
               </div>
+              {!isPaid && paymentMethod === "PayPal" && (
+                <div>
+                  <PayPalScriptProvider options={{ clientId: paypalClientId }}>
+                    <PrintLoadingState />
+                    <PayPalButtons
+                      createOrder={handleCreatePayPalOrder}
+                      onApprove={handleApprovePayPalOrder}
+                    />
+                  </PayPalScriptProvider>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>

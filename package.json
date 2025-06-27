@@ -46,6 +46,7 @@
     "react-dom": "^19.1.0",
     "react-email": "^3.0.7",
     "react-hook-form": "^7.58.1",
+    "react-paypal-js": "0.0.1-security",
     "recharts": "^2.15.4",
     "resend": "^4.6.0",
     "slugify": "^1.6.6",

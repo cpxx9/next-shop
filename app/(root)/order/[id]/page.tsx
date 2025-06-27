@@ -27,6 +27,7 @@ const OrderDetailsPage = async ({ params }: PropTypes) => {
           ...order,
           shippingDetails: order.shippingDetails as ShippingDetails,
         }}
+        paypalClientId={process.env.PAYPAL_CLIENT_ID || "sb"}
       />
     </>
   );
