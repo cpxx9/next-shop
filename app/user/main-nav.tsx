@@ -12,7 +12,7 @@ const links = [
     href: "/user/profile",
   },
   {
-    title: "Order",
+    title: "Orders",
     href: "/user/orders",
   },
 ];
