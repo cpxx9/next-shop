@@ -52,7 +52,7 @@ const OrderDetailsTable = ({ order, paypalClientId }: PropTypes) => {
     const [{ isPending, isRejected }] = usePayPalScriptReducer();
     let status = "";
 
-    if (!isPending) {
+    if (isPending) {
       status = "Loading PayPal...";
     } else if (isRejected) {
       status = "Error Loading PayPal";
