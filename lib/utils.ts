@@ -60,6 +60,12 @@ export function formatCurrency(amount: number | string | null) {
   }
 }
 
+const NUMBER_FORMATTER = new Intl.NumberFormat("en-US");
+
+export function formatNumber(number: number) {
+  return NUMBER_FORMATTER.format(number);
+}
+
 export function shortenUuid(id: string) {
   return `..${id.substring(id.length - 6)}`;
 }
@@ -75,6 +81,7 @@ export function formatDateTime(dateString: Date) {
   };
   const dateOptions: Intl.DateTimeFormatOptions = {
     weekday: "short",
+    month: "short",
     year: "numeric",
     day: "numeric",
   };
