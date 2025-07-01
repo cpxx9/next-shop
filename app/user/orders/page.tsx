@@ -73,11 +73,13 @@ const OrdersPage = async ({ searchParams }: PropTypes) => {
             ))}
           </TableBody>
         </Table>
-        {orders.totalPages > 1 && (
+        {orders.totalPages > 1 ? (
           <Pagination
             page={Number(page) || 1}
             totalPages={orders?.totalPages}
           />
+        ) : (
+          <p className="text-muted-foreground">Displaying all results...</p>
         )}
       </div>
     </div>

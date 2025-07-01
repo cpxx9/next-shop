@@ -34,3 +34,7 @@ export type Order = z.infer<typeof insertOrderSchema> & {
 };
 export type PaymentResult = z.infer<typeof paymentResultSchema>;
 export type UpdateProfile = z.infer<typeof updateProfileSchema>;
+export type SalesData = {
+  month: string;
+  totalSales: number;
+};
