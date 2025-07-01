@@ -1,5 +1,4 @@
 import Charts from "@/app/admin/overview/charts";
-import { auth } from "@/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -23,6 +22,7 @@ export const metadata: Metadata = {
 const AdminOverviewPage = async () => {
   const summary = await getOrderSummary();
   await requireAdmin();
+  console.log(summary.salesData);
 
   return (
     <div className="space-y-2">
