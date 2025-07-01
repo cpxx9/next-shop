@@ -330,3 +330,18 @@ export async function getAllOrders({
 
   return { data, totalPages: Math.ceil(dataCount / limit) };
 }
+
+export async function deleteOrder(id: string) {
+  try {
+    await prisma.order.delete({ where: { id } });
+
+    revalidatePath("/admin/orders");
+
+    return {
+      success: true,
+      message: "Order deleted successfully",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
