@@ -22,15 +22,20 @@ import {
 import {
   createPayPalOrder,
   approvePayPalOrder,
+  updatedOrderToPaidCOD,
+  deliverOrder,
 } from "@/lib/actions/order.actions";
 import { useToast } from "@/hooks/use-toast";
+import { useTransition } from "react";
+import { Button } from "@/components/ui/button";
 
 interface PropTypes {
   order: Order;
   paypalClientId: string;
+  isAdmin: boolean;
 }
 
-const OrderDetailsTable = ({ order, paypalClientId }: PropTypes) => {
+const OrderDetailsTable = ({ order, paypalClientId, isAdmin }: PropTypes) => {
   const {
     id,
     shippingDetails,
@@ -80,6 +85,52 @@ const OrderDetailsTable = ({ order, paypalClientId }: PropTypes) => {
       variant: res.success ? "default" : "destructive",
       description: res.message,
     });
+  };
+
+  const MarkAsPaidButton = () => {
+    const [isPending, startTransition] = useTransition();
+    const { toast } = useToast();
+
+    return (
+      <Button
+        type="button"
+        disabled={isPending}
+        onClick={() =>
+          startTransition(async () => {
+            const res = await updatedOrderToPaidCOD(order.id);
+            toast({
+              variant: res.success ? "default" : "destructive",
+              description: res.message,
+            });
+          })
+        }
+      >
+        {isPending ? "Processing..." : "Mark as Paid"}
+      </Button>
+    );
+  };
+
+  const MarkAsDeliveredButton = () => {
+    const [isPending, startTransition] = useTransition();
+    const { toast } = useToast();
+
+    return (
+      <Button
+        type="button"
+        disabled={isPending}
+        onClick={() =>
+          startTransition(async () => {
+            const res = await deliverOrder(order.id);
+            toast({
+              variant: res.success ? "default" : "destructive",
+              description: res.message,
+            });
+          })
+        }
+      >
+        {isPending ? "Processing..." : "Mark as Delivered"}
+      </Button>
+    );
   };
 
   return (
@@ -205,6 +256,10 @@ const OrderDetailsTable = ({ order, paypalClientId }: PropTypes) => {
                   </PayPalScriptProvider>
                 </div>
               )}
+              {isAdmin && !isPaid && paymentMethod === "CashOnDelivery" && (
+                <MarkAsPaidButton />
+              )}
+              {isAdmin && isPaid && !isDelivered && <MarkAsDeliveredButton />}
             </CardContent>
           </Card>
         </div>
