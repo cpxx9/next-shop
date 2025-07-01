@@ -1,5 +1,6 @@
 import Pagination from "@/components/shared/pagination";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -26,7 +27,7 @@ const AdminOrdersPage = async ({ searchParams }: PropTypes) => {
   await requireAdmin();
 
   const { page = "1" } = await searchParams;
-  const orders = await getAllOrders({ page: Number(page), limit: 2 });
+  const orders = await getAllOrders({ page: Number(page) });
 
   return (
     <div className="space-y-2 flex-1">
@@ -66,9 +67,9 @@ const AdminOrdersPage = async ({ searchParams }: PropTypes) => {
                   )}
                 </TableCell>
                 <TableCell>
-                  <Link href={`/order/${order.id}`}>
-                    <span className="px-2">Details</span>
-                  </Link>
+                  <Button asChild variant="outline" size="sm">
+                    <Link href={`/order/${order.id}`}>Details</Link>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
