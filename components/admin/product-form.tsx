@@ -19,8 +19,11 @@ import { useRouter } from "next/navigation";
 import { ControllerRenderProps, SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
 import slugify from "slugify";
+import { UploadButton } from "@/lib/uploadthing";
 import { Textarea } from "@/components/ui/textarea";
 import { createProduct, updateProduct } from "@/lib/actions/product.actions";
+import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
 
 interface PropTypes {
   type: "Create" | "Update";
@@ -68,6 +71,8 @@ const ProductForm = ({ type, product, productId }: PropTypes) => {
       router.push("/admin/products");
     }
   };
+
+  const images = form.watch("images");
 
   return (
     <Form {...form}>
@@ -212,7 +217,48 @@ const ProductForm = ({ type, product, productId }: PropTypes) => {
             )}
           />
         </div>
-        <div className="upload-field flex flex-col md:flex-row gap-5"></div>
+        <div className="upload-field flex flex-col md:flex-row gap-5">
+          <FormField
+            control={form.control}
+            name="images"
+            render={() => (
+              <FormItem className="w-full">
+                <FormLabel>Images</FormLabel>
+                <Card>
+                  <CardContent className="space-y-2 mt-2 min-h-48">
+                    <div className="flex-start space-x-2">
+                      {images.map((image: string) => (
+                        <Image
+                          key={image}
+                          src={image}
+                          alt="product image"
+                          className="w-20 h-20 object-cover object-center rounded-sm"
+                          width={100}
+                          height={100}
+                        />
+                      ))}
+                      <FormControl>
+                        <UploadButton
+                          endpoint="imageUploader"
+                          onClientUploadComplete={(res: { url: string }[]) => {
+                            form.setValue("images", [...images, res[0].url]);
+                          }}
+                          onUploadError={(error: Error) => {
+                            toast({
+                              variant: "destructive",
+                              description: `Error! ${error.message}`,
+                            });
+                          }}
+                        />
+                      </FormControl>
+                    </div>
+                  </CardContent>
+                </Card>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <div className="upload-field"></div>
         <div>
           <FormField
