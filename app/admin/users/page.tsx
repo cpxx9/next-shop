@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteUser, getAllUsers } from "@/lib/actions/user.actions";
-import { shortenUuid, formatDateTime, formatCurrency } from "@/lib/utils";
+import { shortenUuid } from "@/lib/utils";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -55,10 +55,10 @@ const AdminUsersPage = async ({ searchParams }: PropTypes) => {
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <Button asChild variant="outline" size="sm">
+                  <Button className="mr-1" asChild variant="outline" size="sm">
                     <Link href={`/admin/users/${user.id}`}>Edit</Link>
                   </Button>
-                  {/* <DeleteDialog id={user.id} action={deleteUser} /> */}
+                  <DeleteDialog id={user.id} action={deleteUser} />
                 </TableCell>
               </TableRow>
             ))}
