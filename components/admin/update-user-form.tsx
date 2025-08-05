@@ -18,8 +18,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { updateUser } from "@/lib/actions/user.actions";
 import { USER_ROLES } from "@/lib/constants";
-import { insertProductSchema, updateUserSchema } from "@/lib/validators";
+import { updateUserSchema } from "@/lib/validators";
 import { UpdateUser } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -32,14 +33,33 @@ interface PropTypes {
 
 const UpdateUserForm = ({ user }: PropTypes) => {
   const router = useRouter();
-  const toast = useToast();
+  const { toast } = useToast();
   const form = useForm<UpdateUser>({
     resolver: zodResolver(updateUserSchema),
     defaultValues: user,
   });
 
-  const onSubmit = () => {
-    return;
+  const onSubmit = async (values: UpdateUser) => {
+    try {
+      const res = await updateUser({ ...values, id: user.id });
+
+      if (!res.success) {
+        return toast({
+          variant: "destructive",
+          description: res.message,
+        });
+      }
+
+      toast({
+        description: res.message,
+      });
+      router.push("/admin/users");
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        description: (err as Error).message,
+      });
+    }
   };
 
   return (

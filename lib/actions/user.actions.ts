@@ -11,7 +11,7 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { hashSync } from "bcrypt-ts-edge";
 import { prisma } from "@/db/prisma";
 import { formatError } from "@/lib/utils";
-import type { PaymentMethod, ShippingDetails } from "@/types";
+import type { PaymentMethod, ShippingDetails, UpdateUser } from "@/types";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { PAGE_SIZE } from "@/lib/constants";
@@ -185,6 +185,30 @@ export async function deleteUser(id: string) {
     return {
       success: true,
       message: "User deleted successfully",
+    };
+  } catch (err) {
+    return {
+      success: false,
+      message: formatError(err),
+    };
+  }
+}
+
+export async function updateUser(user: UpdateUser) {
+  try {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        name: user.name,
+        role: user.role,
+      },
+    });
+
+    revalidatePath("/admin/users");
+
+    return {
+      success: true,
+      message: "User updated successfully",
     };
   } catch (err) {
     return {
