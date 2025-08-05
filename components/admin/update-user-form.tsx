@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -9,7 +10,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { USER_ROLES } from "@/lib/constants";
 import { insertProductSchema, updateUserSchema } from "@/lib/validators";
 import { UpdateUser } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -77,6 +86,48 @@ const UpdateUserForm = ({ user }: PropTypes) => {
               </FormItem>
             )}
           />
+        </div>
+        <div>
+          <FormField
+            control={form.control}
+            name="role"
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<UpdateUser, "role">;
+            }) => (
+              <FormItem className="w-full">
+                <FormLabel>Role</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value.toString()}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a role" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {USER_ROLES.map((role) => (
+                      <SelectItem key={role} value={role}>
+                        {role.charAt(0).toUpperCase() + role.slice(1)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="flex-between mt-4">
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={form.formState.isSubmitting}
+          >
+            {form.formState.isSubmitting ? "Submitting..." : "Update User"}
+          </Button>
         </div>
       </form>
     </Form>
