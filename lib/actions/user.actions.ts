@@ -13,6 +13,7 @@ import { prisma } from "@/db/prisma";
 import { formatError } from "@/lib/utils";
 import type { PaymentMethod, ShippingDetails } from "@/types";
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
 
 export async function signInWithCredentials(
   previousState: unknown,
@@ -152,5 +153,21 @@ export async function updateProfile(user: { name: string; email: string }) {
     };
   } catch (error) {
     return { success: false, message: formatError(error) };
+  }
+}
+
+export async function deleteUser(id: string) {
+  try {
+    await prisma.user.delete({ where: { id } });
+    revalidatePath("/admin/users");
+    return {
+      success: true,
+      message: "User deleted successfully",
+    };
+  } catch (err) {
+    return {
+      success: false,
+      message: formatError(err),
+    };
   }
 }
