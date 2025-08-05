@@ -117,3 +117,8 @@ export const updateProfileSchema = z.object({
   name: z.string().min(3, `Name${threeCharError}`),
   email: z.string().min(3, `Email${threeCharError}`),
 });
+
+export const updateUserSchema = updateProfileSchema.extend({
+  id: z.string().min(1, `ID${isRequiredError}`),
+  role: z.string().min(1, `Role${isRequiredError}`),
+});
