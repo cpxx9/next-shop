@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteOrder, getAllUsers } from "@/lib/actions/order.actions";
+import { deleteUser, getAllUsers } from "@/lib/actions/user.actions";
 import { shortenUuid, formatDateTime, formatCurrency } from "@/lib/utils";
 import { Metadata } from "next";
 import Link from "next/link";

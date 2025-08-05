@@ -382,24 +382,3 @@ export async function deliverOrder(orderId: string) {
     };
   }
 }
-
-export async function getAllUsers({
-  limit = PAGE_SIZE,
-  page,
-}: {
-  limit?: number;
-  page: number;
-}) {
-  const data = await prisma.user.findMany({
-    orderBy: { createdAt: "desc" },
-    take: limit,
-    skip: (page - 1) * limit,
-  });
-
-  const dataCount = await prisma.user.count();
-
-  return {
-    data,
-    totalPages: Math.ceil(dataCount / limit),
-  };
-}
